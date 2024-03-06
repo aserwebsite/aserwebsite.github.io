@@ -1,3 +1,106 @@
-<p><span style="font-size:48px">steve is a nerd</span></p>
-
-<p><span style="font-size:36px"><img alt="" src="https://ckeditor.com/apps/ckfinder/userfiles/files/White%20Red%20Minimalist%20Quote%20Valentine's%20Day%20Instagram%20Post.png" style="height:400px; width:400px" /></span></p>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Snake Game</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas" width="400" height="400"></canvas>
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const context = canvas.getContext('2d');
+    
+    const tileSize = 20;
+    const tileCountX = canvas.width / tileSize;
+    const tileCountY = canvas.height / tileSize;
+    
+    let snakeX = 10;
+    let snakeY = 10;
+    let velocityX = 0;
+    let velocityY = 0;
+    const snakeTrail = [];
+    let tailLength = 1;
+    
+    let appleX = 15;
+    let appleY = 15;
+    
+    function update() {
+      snakeX += velocityX;
+      snakeY += velocityY;
+    
+      if (snakeX < 0) {
+        snakeX = tileCountX - 1;
+      }
+      if (snakeX > tileCountX - 1) {
+        snakeX = 0;
+      }
+      if (snakeY < 0) {
+        snakeY = tileCountY - 1;
+      }
+      if (snakeY > tileCountY - 1) {
+        snakeY = 0;
+      }
+    
+      context.fillStyle = 'black';
+      context.fillRect(0, 0, canvas.width, canvas.height);
+    
+      context.fillStyle = 'lime';
+      for (let i = 0; i < snakeTrail.length; i++) {
+        context.fillRect(
+          snakeTrail[i].x * tileSize,
+          snakeTrail[i].y * tileSize,
+          tileSize - 2,
+          tileSize - 2
+        );
+    
+        if (snakeTrail[i].x === snakeX && snakeTrail[i].y === snakeY) {
+          tailLength = 1;
+        }
+      }
+    
+      snakeTrail.push({ x: snakeX, y: snakeY });
+      while (snakeTrail.length > tailLength) {
+        snakeTrail.shift();
+      }
+    
+      if (appleX === snakeX && appleY === snakeY) {
+        tailLength++;
+        appleX = Math.floor(Math.random() * tileCountX);
+        appleY = Math.floor(Math.random() * tileCountY);
+      }
+    
+      context.fillStyle = 'red';
+      context.fillRect(appleX * tileSize, appleY * tileSize, tileSize - 2, tileSize - 2);
+    }
+    
+    document.addEventListener('keydown', (event) => {
+      switch (event.key) {
+        case 'ArrowUp':
+          velocityX = 0;
+          velocityY = -1;
+          break;
+        case 'ArrowDown':
+          velocityX = 0;
+          velocityY = 1;
+          break;
+        case 'ArrowLeft':
+          velocityX = -1;
+          velocityY = 0;
+          break;
+        case 'ArrowRight':
+          velocityX = 1;
+          velocityY = 0;
+          break;
+      }
+    });
+    
+    setInterval(update, 1000 / 15);
+  </script>
+</body>
+</html>
