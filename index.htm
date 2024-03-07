@@ -1,106 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Snake Game</title>
-  <style>
-    canvas {
-      border: 1px solid black;
-      display: block;
-      margin: 0 auto;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renaissance Digital Museum</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .artwork {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #fff;
+        }
+        .artwork img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
-  <canvas id="gameCanvas" width="400" height="400"></canvas>
-  <script>
-    const canvas = document.getElementById('gameCanvas');
-    const context = canvas.getContext('2d');
-    
-    const tileSize = 20;
-    const tileCountX = canvas.width / tileSize;
-    const tileCountY = canvas.height / tileSize;
-    
-    let snakeX = 10;
-    let snakeY = 10;
-    let velocityX = 0;
-    let velocityY = 0;
-    const snakeTrail = [];
-    let tailLength = 1;
-    
-    let appleX = 15;
-    let appleY = 15;
-    
-    function update() {
-      snakeX += velocityX;
-      snakeY += velocityY;
-    
-      if (snakeX < 0) {
-        snakeX = tileCountX - 1;
-      }
-      if (snakeX > tileCountX - 1) {
-        snakeX = 0;
-      }
-      if (snakeY < 0) {
-        snakeY = tileCountY - 1;
-      }
-      if (snakeY > tileCountY - 1) {
-        snakeY = 0;
-      }
-    
-      context.fillStyle = 'black';
-      context.fillRect(0, 0, canvas.width, canvas.height);
-    
-      context.fillStyle = 'lime';
-      for (let i = 0; i < snakeTrail.length; i++) {
-        context.fillRect(
-          snakeTrail[i].x * tileSize,
-          snakeTrail[i].y * tileSize,
-          tileSize - 2,
-          tileSize - 2
-        );
-    
-        if (snakeTrail[i].x === snakeX && snakeTrail[i].y === snakeY) {
-          tailLength = 1;
-        }
-      }
-    
-      snakeTrail.push({ x: snakeX, y: snakeY });
-      while (snakeTrail.length > tailLength) {
-        snakeTrail.shift();
-      }
-    
-      if (appleX === snakeX && appleY === snakeY) {
-        tailLength++;
-        appleX = Math.floor(Math.random() * tileCountX);
-        appleY = Math.floor(Math.random() * tileCountY);
-      }
-    
-      context.fillStyle = 'red';
-      context.fillRect(appleX * tileSize, appleY * tileSize, tileSize - 2, tileSize - 2);
-    }
-    
-    document.addEventListener('keydown', (event) => {
-      switch (event.key) {
-        case 'ArrowUp':
-          velocityX = 0;
-          velocityY = -1;
-          break;
-        case 'ArrowDown':
-          velocityX = 0;
-          velocityY = 1;
-          break;
-        case 'ArrowLeft':
-          velocityX = -1;
-          velocityY = 0;
-          break;
-        case 'ArrowRight':
-          velocityX = 1;
-          velocityY = 0;
-          break;
-      }
-    });
-    
-    setInterval(update, 1000 / 15);
-  </script>
+    <header>
+        <h1>Renaissance Digital Museum</h1>
+    </header>
+    <div class="container">
+        <div class="artwork">
+            <h2>Mona Lisa</h2>
+            <p>Artist: Leonardo da Vinci</p>
+            <p>Year: 1503</p>
+            <img src="mona_lisa.jpg" alt="Mona Lisa">
+            <p>Description: The most famous painting of the Renaissance.</p>
+        </div>
+        <div class="artwork">
+            <h2>The Last Supper</h2>
+            <p>Artist: Leonardo da Vinci</p>
+            <p>Year: 1495</p>
+            <img src="last_supper.jpg" alt="The Last Supper">
+            <p>Description: Depicts the last supper of Jesus with his disciples.</p>
+        </div>
+        <div class="artwork">
+            <h2>The Birth of Venus</h2>
+            <p>Artist: Sandro Botticelli</p>
+            <p>Year: 1486</p>
+            <img src="birth_of_venus.jpg" alt="The Birth of Venus">
+            <p>Description: A depiction of the goddess Venus emerging from the sea.</p>
+        </div>
+    </div>
 </body>
 </html>
